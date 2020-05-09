@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+
+
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:component-scan base-package="com.github.seaframework"/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <task:executor id="task-executor" pool-size="10" queue-capacity="5000"/>
+    <task:annotation-driven executor="task-executor"/>
+
+    <!--    <import resource="classpath*:spring/dubbo/spring-dubbo.xml"/>-->
+
+    <bean class="com.github.seaframework.monitor.aop.SeaMonitorAspect"/>
+
+</beans>

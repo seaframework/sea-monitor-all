@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>sea-root</artifactId>
+        <groupId>com.github.seaframework</groupId>
+        <version>2.0.0</version>
+    </parent>
+
+
+    <groupId>com.github.seaframework</groupId>
+    <artifactId>sea-monitor-all</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>sea-monitor</module>
+        <module>sea-monitor-boot-starter</module>
+        <module>sea-monitor-boot-starter-demo</module>
+        <module>sea-monitor-web-demo</module>
+    </modules>
+
+    <properties>
+        <sea.core.version>1.0.0</sea.core.version>
+        <sofa.tracer.version>3.0.12</sofa.tracer.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.seaframework</groupId>
+                <artifactId>sea-core-basic</artifactId>
+                <version>${sea.core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.seaframework</groupId>
+                <artifactId>sea-monitor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.seaframework</groupId>
+                <artifactId>sea-monitor-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alipay.sofa</groupId>
+                <artifactId>tracer-core</artifactId>
+                <version>${sofa.tracer.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

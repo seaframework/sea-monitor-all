@@ -1,0 +1,95 @@
+{
+  "groups": [
+    {
+      "name": "sea",
+      "type": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "sea.region",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "default",
+      "description": "区域名称，推荐使用拼音或英文"
+    },
+    {
+      "name": "sea.monitor.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": false,
+      "description": "是否启用SeaMonitor,默认false."
+    },
+    {
+      "name": "sea.monitor.endpoint",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "",
+      "description": "应用名称"
+    },
+    {
+      "name": "sea.monitor.mode",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "0",
+      "description": "log mode. 0 report to remote server (by default); 1 log to local log file"
+    },
+    {
+      "name": "sea.monitor.trace",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "",
+      "description": "traceId生成方式，默认没有，default：sofa-trace实现"
+    },
+    {
+      "name": "sea.monitor.uri",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "http://127.0.0.1:2058/api/collector/push",
+      "description": "sea monitor collector server push api url."
+    },
+    {
+      "name": "sea.monitor.sample.percent",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": 100,
+      "description": "监控消息采样率，默认100."
+    },
+    {
+      "name": "sea.monitor.send.period.time",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": 20,
+      "description": "20."
+    },
+    {
+      "name": "sea.monitor.filter.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": true,
+      "description": "enable sea monitor web filter."
+    },
+    {
+      "name": "sea.monitor.filter.urlPatterns",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "/*",
+      "description": "sea monitor filter filter url."
+    },
+    {
+      "name": "sea.monitor.filter.exclude",
+      "type": "java.lang.String",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": "",
+      "description": "sea monitor filter exclude url."
+    },
+    {
+      "name": "sea.monitor.filter.order",
+      "type": "java.lang.Integer",
+      "sourceType": "com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorProperties",
+      "defaultValue": 1,
+      "description": "sea monitor filter order, default 1."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+server:
+  port: 8800
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: github-sea-monitor-boot-demo
+logging:
+  file: ${spring.application.name}
+  path: ${user.home}/logs/${spring.application.name}

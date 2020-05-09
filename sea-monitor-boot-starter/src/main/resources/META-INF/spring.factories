@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.github.seaframework.monitor.boot.autoconfigure.SeaMonitorAutoConfigure

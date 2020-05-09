@@ -1,0 +1,11 @@
+server:
+  port: 8800
+
+sea:
+  monitor:
+    enabled: true
+    endpoint: github-sea-boot-starter-demo
+    uri: http://127.0.0.1:2058/api/collector/push
+    filter:
+      enabled: true
+  region: usa

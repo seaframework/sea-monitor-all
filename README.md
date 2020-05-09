@@ -75,7 +75,7 @@
 
 - 在`META-INF/service/`目录下新建文件`com.github.seaframework.monitor.heartbeat.StatusExtension`
 - `实现接口com.github.seaframework.monitor.heartbeat.StatusExtension`
-- `META-INF/service/com.github.seaframework.monitor.heartbeat.StatusExtensio`文件中存放对应的实现类即可
+- `META-INF/service/com.github.seaframework.monitor.heartbeat.StatusExtension`文件中存放对应的实现类即可
 
 
 ## 参考资料

@@ -7,7 +7,7 @@ pom.xml
 ````
   <properties>
 		<!--最新版本请从仓库获取 https://search.maven.org/search?q=g:com.github.seaframework -->
-	   <sea.monitor.version>1.0.0</sea.monitor.version>
+	   <sea.monitor.version>1.1.0</sea.monitor.version>
   </properties>
   <dependencies>
       <dependency>

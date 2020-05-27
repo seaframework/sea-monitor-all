@@ -3,11 +3,14 @@ package com.github.seaframework.monitor.heartbeat.dubbo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.seaframework.core.util.*;
+import com.github.seaframework.monitor.common.TagConst;
+import com.github.seaframework.monitor.dto.MetricDTO;
 import com.github.seaframework.monitor.heartbeat.AbstractCollector;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +45,7 @@ public abstract class AbstractDubboThreadPoolHeartbeat extends AbstractCollector
 
             // parse message
             //{"level":"OK","message":"Pool status:OK, max:200, core:200, largest:27, active:0, task:27, service port: 20888"}
-
+//            message=@String[Pool status:OK, max:200, core:200, largest:200, active:0, task:12961, service port: 20880;Pool status:OK, max:2147483647, core:0, largest:1, active:0, task:2824, service port: 7070],
             JSONObject jsonObj = JSON.parseObject(JSON.toJSONString(invoke));
             String level = jsonObj.getString("level");
             String msg = jsonObj.getString("message");
@@ -51,39 +54,55 @@ public abstract class AbstractDubboThreadPoolHeartbeat extends AbstractCollector
                 return MapUtil.empty();
             }
 
-            List<String> values = StringUtil.splitToList(msg, ',');
+            List<String> values = StringUtil.splitToList(msg, ';');
             if (ListUtil.isEmpty(values)) {
                 return MapUtil.empty();
             }
 
-            Map<String, String> valueMap = new HashMap<>(values.size());
-
+            List<MetricDTO> data = new ArrayList<>();
             for (int i = 0; i < values.size(); i++) {
-                String item = values.get(i);
-                String[] valueArray = StringUtil.split(item, ':');
-
-                if (valueArray == null || valueArray.length != 2) {
+                String message = values.get(i);
+                List<String> items = StringUtil.splitToList(message, ',');
+                if (ListUtil.isEmpty(items)) {
                     continue;
                 }
-                valueMap.put(valueArray[0].trim(), valueArray[1].trim());
+                Map<String, String> valueMap = new HashMap<>(items.size());
+
+                for (int j = 0; j < items.size(); j++) {
+                    String item = items.get(j);
+                    String[] valueArray = StringUtil.split(item, ':');
+                    if (valueArray == null || valueArray.length != 2) {
+                        continue;
+                    }
+                    valueMap.put(valueArray[0].trim(), valueArray[1].trim());
+                }
+
+                String port = MapUtil.getString(valueMap, "service port", "");
+                if (StringUtil.isEmpty(port)) {
+                    log.warn("service port is null, skip it");
+                    continue;
+                }
+                Map<String, String> tags = new HashMap<>(1, 1);
+                tags.put(TagConst.PORT, port);
+                // report
+                double max = MapUtil.getDoubleValue(valueMap, "max", 0);
+                double active = MapUtil.getDoubleValue(valueMap, "active", 0);
+                double activePercent = NumberUtil.divide(active, max, 3, RoundingMode.UP).doubleValue();
+
+                data.add(buildMetric("dubbo.thread.pool.max", max, tags));
+                data.add(buildMetric("dubbo.thread.pool.core", MapUtil.getDoubleValue(valueMap, "core", 0), tags));
+                data.add(buildMetric("dubbo.thread.pool.largest", MapUtil.getDoubleValue(valueMap, "largest", 0), tags));
+                data.add(buildMetric("dubbo.thread.pool.active", active, tags));
+                data.add(buildMetric("dubbo.thread.pool.task", MapUtil.getDoubleValue(valueMap, "task", 0), tags));
+                data.add(buildMetric("dubbo.thread.pool.active.percent", activePercent, tags));
+
+                if (max < Integer.MAX_VALUE) {
+                    checkDumpStack(activePercent);
+                }
             }
 
-            log.debug("dubbo metrics report");
-
-            // report
-            double max = MapUtil.getDoubleValue(valueMap, "max", 0);
-            double active = MapUtil.getDoubleValue(valueMap, "active", 0);
-            double activePercent = NumberUtil.divide(active, max, 3, RoundingMode.UP).doubleValue();
-
-            Map<String, Object> retMap = new HashMap<>(6);
-            retMap.put("dubbo.thread.pool.max", max);
-            retMap.put("dubbo.thread.pool.core", MapUtil.getDoubleValue(valueMap, "core", 0));
-            retMap.put("dubbo.thread.pool.largest", MapUtil.getDoubleValue(valueMap, "largest", 0));
-            retMap.put("dubbo.thread.pool.active", active);
-            retMap.put("dubbo.thread.pool.task", MapUtil.getDoubleValue(valueMap, "task", 0));
-            retMap.put("dubbo.thread.pool.active.percent", activePercent);
-
-            checkDumpStack(activePercent);
+            Map<String, Object> retMap = new HashMap<>();
+            retMap.put("data", data);
 
             return retMap;
         } catch (Exception e) {

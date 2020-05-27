@@ -38,4 +38,5 @@ public interface TagConst {
 
     String DB_TYPE = "db_type";
 
+    String PORT = "port";
 }

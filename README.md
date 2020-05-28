@@ -1,5 +1,9 @@
 # sea-monitor
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/seaframework/sea-monitor-all.svg)](https://starchart.cc/seaframework/sea-monitor-all)
+
 > N9E java sdk，采集应用数据上报N9E collector 或transfer。
 
 ## Overview

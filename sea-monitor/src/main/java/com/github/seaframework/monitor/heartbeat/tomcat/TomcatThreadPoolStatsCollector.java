@@ -1,6 +1,7 @@
 package com.github.seaframework.monitor.heartbeat.tomcat;
 
 import com.github.seaframework.core.util.EqualUtil;
+import com.github.seaframework.core.util.JvmUtil;
 import com.github.seaframework.core.util.NumberUtil;
 import com.github.seaframework.core.util.StringUtil;
 import com.github.seaframework.monitor.common.MonitorCommon;
@@ -97,6 +98,8 @@ public class TomcatThreadPoolStatsCollector extends AbstractCollector {
                 double busyPercent = NumberUtil.divide(currentThreadsBusy, maxThreads, 3, RoundingMode.UP).doubleValue();
                 metrics.add(buildMetric("tomcat.thread.pool.busy.percent", busyPercent, tags));
                 // should be only one stat object there
+                checkDumpStack(busyPercent);
+
             } catch (Exception e) {
                 log.error("Exception occur when getting connector global stats: ", e);
             }
@@ -121,5 +124,15 @@ public class TomcatThreadPoolStatsCollector extends AbstractCollector {
 
         return EqualUtil.isEq("tomcat", domain, false) ||
                 EqualUtil.isEq("catalina", domain, false);
+    }
+
+    private static final double MAX_THRESHOLD_VALUE = 0.9;
+
+    private void checkDumpStack(double activePercent) {
+        if (activePercent >= MAX_THRESHOLD_VALUE) {
+            log.warn("begin dump java stack");
+            Thread t = new Thread(() -> JvmUtil.dumpStackLimiter());
+            t.start();
+        }
     }
 }

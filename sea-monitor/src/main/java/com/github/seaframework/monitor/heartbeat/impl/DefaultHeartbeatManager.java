@@ -14,6 +14,7 @@ import com.github.seaframework.monitor.heartbeat.datasource.druid.DruidInfoColle
 import com.github.seaframework.monitor.heartbeat.datasource.hikari.HikariInfoCollector;
 import com.github.seaframework.monitor.heartbeat.dubbo.DubboLegacyThreadPoolHeartbeat;
 import com.github.seaframework.monitor.heartbeat.dubbo.DubboThreadPoolHeartbeat;
+import com.github.seaframework.monitor.heartbeat.http.HttpStatsCollector;
 import com.github.seaframework.monitor.heartbeat.jvm.ClassLoadingInfoCollector;
 import com.github.seaframework.monitor.heartbeat.jvm.JvmInfoCollector;
 import com.github.seaframework.monitor.heartbeat.jvm.ThreadInfoCollector;
@@ -43,6 +44,7 @@ public class DefaultHeartbeatManager implements HeartbeatManager {
 
         StatusExtensionRegister register = StatusExtensionRegister.getInstance();
         register.register(new SysAliveCollector());
+        register.register(new HttpStatsCollector());
         register.register(new DataStatsCollector());
 
         if (DruidInfoCollector.exist()) {

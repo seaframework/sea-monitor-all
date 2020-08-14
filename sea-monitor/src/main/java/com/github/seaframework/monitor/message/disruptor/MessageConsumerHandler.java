@@ -33,7 +33,11 @@ public class MessageConsumerHandler implements WorkHandler<MessageEvent> {
         if (!init) {
             initQueue();
         }
-        queue.put(event.getMetricDTO());
+        try {
+            queue.add(event.getMetricDTO());
+        } catch (Exception e) {
+            log.error("fail to add to queue.", e);
+        }
     }
 
 

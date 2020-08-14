@@ -14,7 +14,7 @@
 |dubbo.thread.pool.core| dubbo线程池核心线程数 |
 |dubbo.thread.pool.max| dubbo线程池最大数 |
 |dubbo.thread.pool.task| dubbo线程池任务执行数 |
-
+|dubbo.cost| dubbo服务耗时（超10s上报）|
 - ![](img/hot.png)当线程池使用率超过0.9时会自动dump 线程堆栈，目录`${user.home}/logs`
 
 ## 集成

@@ -45,7 +45,7 @@
 - [系统（全局）级监控](doc/system.md)  
 - [JVM监控](doc/jvm.md)
 - [Tomcat监控](doc/tomcat.md)
-- [Dubbo连接池监控](doc/dubbo.md)
+- [Dubbo监控](doc/dubbo.md)
 - [DB连接池监控](doc/db.md)
 - [Http异常监控](doc/http.md)
 - [SQL监控](doc/mybatis.md)

@@ -4,8 +4,10 @@ import com.alibaba.dubbo.rpc.*;
 import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.common.MonitorConst;
 import com.github.seaframework.monitor.dto.MetricDTO;
+import com.github.seaframework.monitor.dubbo.AbstractDubboExceptionMonitorFilter;
 import com.github.seaframework.monitor.enums.CounterEnum;
 import com.github.seaframework.monitor.heartbeat.data.DataStats;
+import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -19,9 +21,11 @@ import java.util.Map;
  * @since 1.0
  */
 @Slf4j
-public class DubboExceptionMonitorFilter implements Filter {
+public class DubboExceptionMonitorFilter extends AbstractDubboExceptionMonitorFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
         Throwable exception = null;
         Result result = null;
         try {
@@ -55,6 +59,7 @@ public class DubboExceptionMonitorFilter implements Filter {
                     dataStats.logCount(CounterEnum.SYS_ERROR);
                 }
             }
+            postCheckCost(stopwatch, invoker.getInterface().getName(), invocation.getMethodName());
         }
         return result;
     }

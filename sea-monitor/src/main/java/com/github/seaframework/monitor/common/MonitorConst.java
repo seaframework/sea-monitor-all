@@ -57,6 +57,7 @@ public class MonitorConst {
     public static final String METRIC_SYS_ERROR = "sea.sys.error.count";
 
     public static final String METRIC_DUBBO_EXCEPTION = "dubbo.exception";
+    public static final String METRIC_DUBBO_COST = "dubbo.cost";
 
     public static final String METRIC_MQ_ERROR = "mq.error";
 

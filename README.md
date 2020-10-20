@@ -7,7 +7,15 @@
 > N9E java sdk，采集应用数据上报N9E collector 或transfer。
 
 ## Overview
+
+### 后端截图
+
 ![](doc/img/overview.png)
+
+### 报警截图
+
+![](doc/img/screenshot.png)
+![](doc/img/screenshot2.png)
 
 ## 架构
 > sea-monitor默认情况下以SDK形式嵌入到应用，方便研发人员使用；

@@ -123,7 +123,7 @@ public abstract class AbstractDubboThreadPoolHeartbeat extends AbstractCollector
     }
 
 
-    private void checkDumpStack(double activePercent) {
+    protected void checkDumpStack(double activePercent) {
         if (activePercent >= MAX_THRESHOLD_VALUE) {
             log.warn("begin dump java stack");
             Thread t = new Thread(() -> JvmUtil.dumpStackLimiter());

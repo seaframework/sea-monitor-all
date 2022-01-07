@@ -89,7 +89,6 @@
 - `实现接口com.github.seaframework.monitor.heartbeat.StatusExtension`
 - `META-INF/service/com.github.seaframework.monitor.heartbeat.StatusExtension`文件中存放对应的实现类即可
 
-
 ## 参考资料
 
 - SDK的实现参考了CAT-SDK
@@ -99,4 +98,5 @@
 
 > 您的支持是我最大的动力
 
-- ![](doc/img/spy_pay_all.jpeg) 
+ <img src="doc/img/spy_pay_all.jpeg" alt="drawing" style="width:250px;"/>
+

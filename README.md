@@ -99,4 +99,4 @@
 
 > 您的支持是我最大的动力
 
-- ![](doc/img/spy_pay_wx.jpeg) ![](doc/img/spy_pay_alipay.jpeg)
+- ![](doc/img/spy_pay_all.jpeg) 

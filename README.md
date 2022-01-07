@@ -4,7 +4,9 @@
 
 [![Stargazers over time](https://starchart.cc/seaframework/sea-monitor-all.svg)](https://starchart.cc/seaframework/sea-monitor-all)
 
-> N9E java sdk，采集应用数据上报N9E。 V3版本与V5版本架构差异，V3请选择1.3.1版本，V5版本请选择3.0.0-SNAPSHOT
+> N9E java sdk，采集应用数据上报N9E。
+> V3版本与V5版本架构差异，V3请选择1.3.1版本，V5版本请选择3.0.0-SNAPSHOT
+> V5版本请选择定制化的https://github.com/taotao365s/nightingale，否则业务监控不起作用
 
 ## Overview
 

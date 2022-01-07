@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.logback;
+package com.github.seaframework.monitor.plugin.logback;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;

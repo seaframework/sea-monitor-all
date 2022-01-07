@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.filter;
+package com.github.seaframework.monitor.plugin.filter;
 
 import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.common.MonitorConst;
@@ -12,9 +12,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -114,6 +112,7 @@ public class SeaMonitorFilter implements Filter {
 
         long start = System.currentTimeMillis();
         int status = 0;
+        Throwable t = null;
 
         try {
             chain.doFilter(request, response);
@@ -121,24 +120,27 @@ public class SeaMonitorFilter implements Filter {
         } catch (ServletException e) {
             log.error("http500", e);
             status = 500;
+            t = e;
             throw e;
         } catch (IOException e) {
             log.error("http501", e);
             status = 501;
+            t = e;
             throw e;
         } catch (Throwable e) {
             log.error("http500", e);
             status = 500;
+            t = e;
             throw new RuntimeException(e);
         } finally {
             long cost = System.currentTimeMillis() - start;
 
-            logUri(request, status, cost);
+            logError(request, t, status, cost);
             logRequestCost(request, status, cost);
         }
     }
 
-    private void logUri(HttpServletRequest request, int status, long cost) {
+    private void logError(HttpServletRequest request, Throwable t, int status, long cost) {
         if (!SeaMonitor.isEnabled()) {
             return;
         }
@@ -146,14 +148,15 @@ public class SeaMonitorFilter implements Filter {
             return;
         }
 
-        Map<String, String> tagMap = new HashMap<>();
-        tagMap.put(TagConst.PROTOCOL, MonitorConst.HTTP);
-        tagMap.put(TagConst.HTTP_STATUS, "" + status);
+        if (isIgnoreException(t)) {
+            return;
+        }
 
         MetricDTO dto = new MetricDTO();
-        dto.setMetric(request.getRequestURI());
+        dto.setMetric(MonitorConst.METRIC_HTTP_ERROR);
         dto.setValue(cost);
-        dto.setTagsMap(tagMap);
+        dto.addTag(TagConst.TAG1, request.getRequestURI());
+        dto.setRemarkF("status={}", status);
         enhanceMetric(dto);
 
         SeaMonitor.logMetric(dto);
@@ -169,15 +172,11 @@ public class SeaMonitorFilter implements Filter {
             return;
         }
 
-        Map<String, String> tagMap = new HashMap<>();
-        tagMap.put(TagConst.PROTOCOL, MonitorConst.HTTP);
-        tagMap.put(TagConst.HTTP_STATUS, "" + status);
-        tagMap.put(TagConst.URI, request.getRequestURI());
-
         MetricDTO dto = new MetricDTO();
         dto.setMetric(MonitorConst.METRIC_HTTP_REQUEST_TIME);
         dto.setValue(cost);
-        dto.setTagsMap(tagMap);
+        dto.addTag(TagConst.TAG1, request.getRequestURI());
+        dto.setRemarkF("status={}", status);
         enhanceMetric(dto);
 
         SeaMonitor.logMetric(dto);
@@ -223,4 +222,19 @@ public class SeaMonitorFilter implements Filter {
         dataStats.logCount(CounterEnum.SYS_ERROR);
     }
 
+
+    /**
+     * check need ignore exception or not
+     *
+     * @param t
+     * @return
+     */
+    protected boolean isIgnoreException(Throwable t) {
+        if (t != null) {
+            if (CLIENT_ABORT_EXCEPTION.equalsIgnoreCase(t.getClass().getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

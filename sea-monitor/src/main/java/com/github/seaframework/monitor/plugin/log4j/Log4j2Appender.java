@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.log4j;
+package com.github.seaframework.monitor.plugin.log4j;
 
 import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.enums.CounterEnum;

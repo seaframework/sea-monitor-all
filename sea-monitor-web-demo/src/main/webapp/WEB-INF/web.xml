@@ -29,7 +29,7 @@
 
     <filter>
         <filter-name>sea-monitor</filter-name>
-        <filter-class>com.github.seaframework.monitor.filter.SeaMonitorFilter</filter-class>
+        <filter-class>com.github.seaframework.monitor.plugin.filter.SeaMonitorFilter</filter-class>
     </filter>
 
     <filter-mapping>

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * module name
@@ -58,13 +59,31 @@ public class SimpleConsumerTask implements Runnable {
         isRunning = false;
     }
 
-    private void send(List<MetricDTO> metricDTOList) {
-        if (ListUtil.isEmpty(metricDTOList)) {
+    private void send(List<MetricDTO> data) {
+        if (ListUtil.isEmpty(data)) {
             return;
         }
-        String url = ConfigurationFactory.getInstance().getString(MonitorConst.CONFIG_KEY_URI, MonitorConst.DEFAULT_COLLECTOR_URI);
-        BaseResult ret = HttpClientUtil.postJSONSafe(url, JSONUtil.toStr(metricDTOList));
-        log.info("post to sea monitor server [count={},success={}]", metricDTOList.size(), ret.getSuccess());
+        String baseUrl = ConfigurationFactory.getInstance().getString(MonitorConst.CONFIG_KEY_URI, MonitorConst.DEFAULT_PUSH_URI);
+
+        List<MetricDTO> metrics = data.stream().filter(MetricDTO::isPeriodFlag).collect(Collectors.toList());
+        if (ListUtil.isNotEmpty(metrics)) {
+            BaseResult ret = HttpClientUtil.postJSONSafe(join(baseUrl, MonitorConst.DEFAULT_TSDB_PUSH_URI), JSONUtil.toStr(metrics));
+            log.info("post to sea monitor server [heartbeat, count={},success={}]", metrics.size(), ret.getSuccess());
+        }
+
+        metrics = data.stream().filter(metricDTO -> !metricDTO.isPeriodFlag()).collect(Collectors.toList());
+        if (ListUtil.isNotEmpty(metrics)) {
+            BaseResult ret = HttpClientUtil.postJSONSafe(join(baseUrl, MonitorConst.DEFAULT_TRACE_PUSH_URI), JSONUtil.toStr(metrics));
+            log.info("post to sea monitor server [trace, count={},success={}]", metrics.size(), ret.getSuccess());
+        }
+    }
+
+    private String join(String baseUrl, String api) {
+        if (baseUrl.endsWith("/")) {
+            return baseUrl.substring(0, baseUrl.length() - 1) + api;
+        } else {
+            return baseUrl + api;
+        }
     }
 
 }

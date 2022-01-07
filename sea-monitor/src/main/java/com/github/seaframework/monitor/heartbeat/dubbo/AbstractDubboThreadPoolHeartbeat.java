@@ -83,7 +83,7 @@ public abstract class AbstractDubboThreadPoolHeartbeat extends AbstractCollector
                     continue;
                 }
                 Map<String, String> tags = new HashMap<>(1, 1);
-                tags.put(TagConst.PORT, port);
+                tags.put(TagConst.TAG1, port);
                 // report
                 double max = MapUtil.getDoubleValue(valueMap, "max", 0);
                 double active = MapUtil.getDoubleValue(valueMap, "active", 0);

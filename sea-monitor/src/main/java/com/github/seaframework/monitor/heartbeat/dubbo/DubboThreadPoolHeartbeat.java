@@ -70,7 +70,7 @@ public class DubboThreadPoolHeartbeat extends AbstractDubboThreadPoolHeartbeat {
                             ThreadPoolStatus status = ThreadPoolUtil.getStatus(tpe);
 
                             Map<String, String> tags = new HashMap<>(1, 1);
-                            tags.put(TagConst.PORT, "" + port);
+                            tags.put(TagConst.TAG1, "" + port);
 
                             metrics.add(buildMetric("dubbo.thread.pool.max", status.getMax(), tags));
                             metrics.add(buildMetric("dubbo.thread.pool.core", status.getCore(), tags));

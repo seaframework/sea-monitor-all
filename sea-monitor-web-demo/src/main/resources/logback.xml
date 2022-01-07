@@ -20,7 +20,7 @@
             <pattern>%d{HH:mm:ss.SSS} %level [%thread] [%class{36}.%M:%line] - %m %n</pattern>
         </encoder>
     </appender>
-    <appender name="SEA_MONITOR" class="com.github.seaframework.monitor.logback.SeaMonitorAppender"></appender>
+    <appender name="SEA_MONITOR" class="com.github.seaframework.monitor.plugin.logback.SeaMonitorAppender"></appender>
 
 
     <root level="DEBUG">

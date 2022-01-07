@@ -1,8 +1,7 @@
-package com.github.seaframework.monitor.aop;
+package com.github.seaframework.monitor.plugin.aop;
 
 import com.github.seaframework.core.util.StringUtil;
 import com.github.seaframework.monitor.SeaMonitor;
-import com.github.seaframework.monitor.annotation.SeaMonitorTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

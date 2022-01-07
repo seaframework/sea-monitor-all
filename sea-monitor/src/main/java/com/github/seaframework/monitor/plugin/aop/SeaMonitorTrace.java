@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.annotation;
+package com.github.seaframework.monitor.plugin.aop;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.heartbeat.impl;
+package com.github.seaframework.monitor.heartbeat;
 
 import com.github.seaframework.core.loader.EnhancedServiceLoader;
 import com.github.seaframework.core.util.ListUtil;
@@ -6,9 +6,6 @@ import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.common.MonitorCommon;
 import com.github.seaframework.monitor.common.MonitorConst;
 import com.github.seaframework.monitor.dto.MetricDTO;
-import com.github.seaframework.monitor.heartbeat.HeartbeatManager;
-import com.github.seaframework.monitor.heartbeat.StatusExtension;
-import com.github.seaframework.monitor.heartbeat.StatusExtensionRegister;
 import com.github.seaframework.monitor.heartbeat.data.DataStatsCollector;
 import com.github.seaframework.monitor.heartbeat.datasource.druid.DruidInfoCollector;
 import com.github.seaframework.monitor.heartbeat.datasource.hikari.HikariInfoCollector;
@@ -128,24 +125,31 @@ public class DefaultHeartbeatManager implements HeartbeatManager {
                 Map<String, Object> properties = extension.getProperties();
 
                 if (properties != null && properties.size() > 0) {
-                    properties.entrySet().stream()
-                              .parallel()
-                              .forEach(item -> {
-                                  if (item.getValue() instanceof MetricDTO) {
-                                      SeaMonitor.logMetric((MetricDTO) item.getValue());
-                                  } else if (item.getValue() instanceof List) {
-                                      try {
-                                          List<MetricDTO> data = (List<MetricDTO>) item.getValue();
-                                          if (ListUtil.isNotEmpty(data)) {
-                                              data.stream().forEach(metric -> SeaMonitor.logMetric(metric));
-                                          }
-                                      } catch (Exception e) {
-                                          log.error("convert list error", e);
-                                      }
-                                  } else {
-                                      SeaMonitor.logMetric(item.getKey(), Double.valueOf(item.getValue().toString()));
-                                  }
-                              });
+                    properties.entrySet().stream().parallel().forEach(item -> {
+                        if (item.getValue() instanceof MetricDTO) {
+                            MetricDTO metricDTO = (MetricDTO) item.getValue();
+                            metricDTO.setPeriodFlag(true);
+                            SeaMonitor.logMetric(metricDTO);
+                        } else if (item.getValue() instanceof List) {
+                            try {
+                                List<MetricDTO> data = (List<MetricDTO>) item.getValue();
+                                if (ListUtil.isNotEmpty(data)) {
+                                    data.stream().forEach(metric -> {
+                                        metric.setPeriodFlag(true);
+                                        SeaMonitor.logMetric(metric);
+                                    });
+                                }
+                            } catch (Exception e) {
+                                log.error("convert list error", e);
+                            }
+                        } else {
+                            MetricDTO metricDTO = new MetricDTO();
+                            metricDTO.setMetric(item.getKey());
+                            metricDTO.setValue(Double.valueOf(item.getValue().toString()));
+                            metricDTO.setPeriodFlag(true);
+                            SeaMonitor.logMetric(metricDTO);
+                        }
+                    });
                 }
 
             } catch (Exception e) {

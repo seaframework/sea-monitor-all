@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.druid;
+package com.github.seaframework.monitor.plugin.druid;
 
 import com.alibaba.druid.filter.AutoLoad;
 import com.alibaba.druid.filter.FilterAdapter;

@@ -19,6 +19,6 @@
 
     <!--    <import resource="classpath*:spring/dubbo/spring-dubbo.xml"/>-->
 
-    <bean class="com.github.seaframework.monitor.aop.SeaMonitorAspect"/>
+    <bean class="com.github.seaframework.monitor.plugin.aop.SeaMonitorAspect"/>
 
 </beans>

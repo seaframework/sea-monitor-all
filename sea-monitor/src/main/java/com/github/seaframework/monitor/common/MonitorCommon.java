@@ -1,9 +1,12 @@
 package com.github.seaframework.monitor.common;
 
 import com.github.seaframework.core.util.ClassUtil;
+import com.github.seaframework.core.util.DateUtil;
 import com.github.seaframework.monitor.heartbeat.dubbo.DubboLegacyThreadPoolHeartbeat;
 import com.github.seaframework.monitor.heartbeat.dubbo.DubboThreadPoolHeartbeat;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Date;
 
 /**
  * module name
@@ -14,6 +17,22 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class MonitorCommon {
+
+    /**
+     * 应用启动时间
+     */
+    private static String uptime = "";
+
+    public static void setUptime() {
+        Date now = new Date();
+        uptime = DateUtil.toString(now, DateUtil.DEFAULT_FORMAT);
+    }
+
+    public static String getUptime() {
+        return uptime;
+    }
+
+
     private static volatile Boolean hasDubboCheckFlag = false;
     private static volatile Boolean hasDubboFlag = null;
 

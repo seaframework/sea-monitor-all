@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.dubbo;
+package com.github.seaframework.monitor.plugin.dubbo;
 
 import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.common.MonitorConst;
@@ -40,8 +40,8 @@ public abstract class AbstractDubboExceptionMonitorFilter {
             metricDTO.setTraceIdFlag(true);
 
             Map<String, String> tagsMap = new HashMap<>(2);
-            tagsMap.put(TagConst.SERVICE, service);
-            tagsMap.put(TagConst.METHOD, method);
+            tagsMap.put(TagConst.TAG1, service);
+            tagsMap.put(TagConst.TAG2, method);
             metricDTO.setTagsMap(tagsMap);
 
             SeaMonitor.logMetric(metricDTO);

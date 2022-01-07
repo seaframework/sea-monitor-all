@@ -81,7 +81,7 @@ public class TomcatThreadPoolStatsCollector extends AbstractCollector {
             }
 
             Map<String, String> tags = new HashMap<>();
-            tags.put(TagConst.SERVICE, name);
+            tags.put(TagConst.TAG1, name);
             try {
                 int currentThreadsBusy = (Integer) mbeanServer.getAttribute(connectorName, "currentThreadsBusy");
                 metrics.add(buildMetric("tomcat.thread.pool.busy", currentThreadsBusy, tags));

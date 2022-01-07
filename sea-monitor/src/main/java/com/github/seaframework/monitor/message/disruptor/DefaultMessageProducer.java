@@ -89,7 +89,7 @@ public class DefaultMessageProducer implements MessageProducer {
         try {
             checkInit();
 
-            long sequence = ringBuffer.next();
+            long sequence = ringBuffer.tryNext();
             try {
                 MessageEvent event = ringBuffer.get(sequence);
                 event.setMetricDTO(metricDTO);

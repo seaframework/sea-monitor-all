@@ -1,25 +1,28 @@
 package com.github.seaframework.monitor;
 
 import com.alibaba.fastjson.JSON;
+import com.github.seaframework.core.common.Env;
 import com.github.seaframework.core.config.Configuration;
 import com.github.seaframework.core.config.ConfigurationFactory;
 import com.github.seaframework.core.loader.EnhancedServiceLoader;
 import com.github.seaframework.core.util.*;
+import com.github.seaframework.monitor.common.ExtraConst;
 import com.github.seaframework.monitor.common.MonitorConst;
 import com.github.seaframework.monitor.common.TagConst;
 import com.github.seaframework.monitor.dto.MetricDTO;
 import com.github.seaframework.monitor.enums.CounterEnum;
 import com.github.seaframework.monitor.enums.MonitorModeEnum;
+import com.github.seaframework.monitor.heartbeat.DefaultHeartbeatManager;
 import com.github.seaframework.monitor.heartbeat.HeartbeatManager;
 import com.github.seaframework.monitor.heartbeat.StatusExtension;
 import com.github.seaframework.monitor.heartbeat.data.DataStats;
-import com.github.seaframework.monitor.heartbeat.impl.DefaultHeartbeatManager;
 import com.github.seaframework.monitor.message.MessageProducer;
 import com.github.seaframework.monitor.message.simple.SimpleMessageProducer;
 import com.github.seaframework.monitor.samplers.PercentageBasedSampler;
 import com.github.seaframework.monitor.samplers.Sampler;
 import com.github.seaframework.monitor.samplers.SamplerProperties;
 import com.github.seaframework.monitor.trace.TraceExtension;
+import com.github.seaframework.monitor.util.MonitorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +53,7 @@ public final class SeaMonitor {
     private static String endpoint;
     private static String app;
     private static String region;
+    private static String env;
 
     private static MessageProducer producer;
     private static HeartbeatManager heartbeatManager;
@@ -119,6 +123,7 @@ public final class SeaMonitor {
             log.info("load from properties");
             String enable = properties.getProperty(MonitorConst.CONFIG_KEY_ENABLED, "false");
             region = properties.getProperty(MonitorConst.CONFIG_KEY_REGION, "default");
+            env = MonitorUtil.replace(properties.getProperty(MonitorConst.CONFIG_KEY_ENV, Env.PRO));
             String monitorMode = properties.getProperty(MonitorConst.CONFIG_KEY_MODE, "0");
             percent = properties.getProperty(MonitorConst.CONFIG_KEY_SAMPLE_PERCENT, "100");
             app = properties.getProperty(MonitorConst.CONFIG_KEY_ENDPOINT, "unknown-endpoint");
@@ -134,6 +139,7 @@ public final class SeaMonitor {
             cfg.putString(MonitorConst.CONFIG_KEY_APP_NAME, app);
             cfg.putString(MonitorConst.CONFIG_KEY_ENABLED, enable);
             cfg.putString(MonitorConst.CONFIG_KEY_REGION, region);
+            cfg.putString(MonitorConst.CONFIG_KEY_ENV, env);
             cfg.putString(MonitorConst.CONFIG_KEY_MODE, monitorMode);
             cfg.putString(MonitorConst.CONFIG_KEY_SAMPLE_PERCENT, percent);
             cfg.putString(MonitorConst.CONFIG_KEY_ENDPOINT, endpoint);
@@ -151,6 +157,7 @@ public final class SeaMonitor {
             }
             cfg.putString(MonitorConst.CONFIG_KEY_APP_NAME, app);
             region = cfg.getString(MonitorConst.CONFIG_KEY_REGION, "default");
+            env = MonitorUtil.replace(cfg.getString(MonitorConst.CONFIG_KEY_ENV, Env.PRO));
             endpoint = buildEndpoint(region, app, localIp, true);
             cfg.putString(MonitorConst.CONFIG_KEY_ENDPOINT, endpoint);
             percent = cfg.getString(MonitorConst.CONFIG_KEY_SAMPLE_PERCENT, "100");
@@ -435,8 +442,9 @@ public final class SeaMonitor {
         }
 
         tags.put(TagConst.REGION, region);
-        tags.put(TagConst.INSTANCE, localIp);
-        tags.put(TagConst.APP, app);
+        tags.put(TagConst.ENV, env);
+        tags.put(TagConst.IP, localIp);
+        tags.put(TagConst.IDENT, app);
 
         if (dto.isTraceIdFlag()) {
             Map<String, String> extraMap = dto.getExtraMap();
@@ -446,7 +454,7 @@ public final class SeaMonitor {
             }
             if (traceExtension != null) {
                 try {
-                    extraMap.put(TagConst.TRACE_ID, traceExtension.getTraceId());
+                    extraMap.put(ExtraConst.TRACE_ID, traceExtension.getTraceId());
                 } catch (Exception e) {
                     log.error("fail to get traceId, plz check");
                 }

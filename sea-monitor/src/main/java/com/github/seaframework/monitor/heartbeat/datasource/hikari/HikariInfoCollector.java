@@ -39,8 +39,8 @@ public class HikariInfoCollector extends DataSourceCollector {
             HikariMonitorInfo value = entry.getValue();
 
             Map<String, String> tags = new HashMap<>();
-            tags.put(TagConst.SERVICE, dataSourceName);
-            tags.put(TagConst.DB_TYPE, PREFIX_KEY);
+            tags.put(TagConst.TAG1, PREFIX_KEY);
+            tags.put(TagConst.TAG2, dataSourceName);
 
             metrics.add(buildMetric("database.thread.pool.busy", value.getActiveConnections(), tags));
             metrics.add(buildMetric("database.thread.pool.total", value.getTotalConnections(), tags));

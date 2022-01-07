@@ -1,4 +1,4 @@
-package com.github.seaframework.monitor.mybatis;
+package com.github.seaframework.monitor.plugin.mybatis;
 
 import com.github.seaframework.monitor.SeaMonitor;
 import com.github.seaframework.monitor.common.MonitorConst;

@@ -9,34 +9,24 @@ package com.github.seaframework.monitor.common;
  */
 public interface TagConst {
 
-
     String REGION = "region";
 
-    String URI = "uri";
+    String ENV = "env";
 
-    String INSTANCE = "instance";
+    String IDENT = "ident";
 
+    String IP = "ip";
+
+    String TAG1 = "tag1";
+    String TAG2 = "tag2";
+    String TAG3 = "tag3";
+    String TAG4 = "tag4";
+    String TAG5 = "tag5";
+    String TAG6 = "tag6";
+
+
+    //
     String APP = "app";
 
-    String HOSTNAME = "hostname";
 
-    String SERVICE_NAME = "service_name";
-
-    String CORP_CODE = "corp_code";
-
-    String HOSPITAL_ID = "hospital_id";
-
-    String PROTOCOL = "protocol";
-
-    String HTTP_STATUS = "http_status";
-
-    String TRACE_ID = "trace_id";
-
-    String SERVICE = "service";
-
-    String METHOD = "method";
-
-    String DB_TYPE = "db_type";
-
-    String PORT = "port";
 }

@@ -59,7 +59,7 @@ public class TomcatHttpStatsCollector extends AbstractCollector {
             }
 
             Map<String, String> tags = new HashMap<>();
-            tags.put(TagConst.SERVICE, name);
+            tags.put(TagConst.TAG1, name);
 
             try {
                 int requestCount = (Integer) mbeanServer.getAttribute(connectorName, "requestCount");

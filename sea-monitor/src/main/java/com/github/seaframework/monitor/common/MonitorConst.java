@@ -15,6 +15,9 @@ public class MonitorConst {
     public static final String MONITOR_CONFIG_FILE = "sea.monitor.properties";
 
     public static final String CONFIG_KEY_REGION = "sea.region";
+
+    public static final String CONFIG_KEY_ENV = "sea.env";
+
     //是否启用监控
     public static final String CONFIG_KEY_ENABLED = "sea.monitor.enabled";
     // 当前系统名称,当前环境唯一，后期会演化成机器唯一标识，启动后不再变化
@@ -45,7 +48,7 @@ public class MonitorConst {
     public static final String METRIC_EXCEPTION = "exception";
 
     // 监控指标 http异常
-    public static final String METRIC_HTTP_REQUEST_TIME = "http.request.cost.time";
+    public static final String METRIC_HTTP_REQUEST_TIME = "http.request.cost";
     // 监控指标 - 请求异常
     public static final String METRIC_HTTP_ERROR = "http.request.error";
     //监控指标 - 定时任务异常
@@ -91,4 +94,7 @@ public class MonitorConst {
      */
     public static final int DEFAULT_PUSH_PERIOD_TIME = 20;
 
+    public static final String DEFAULT_PUSH_URI = "http://127.0.0.1:19000";
+    public static final String DEFAULT_TSDB_PUSH_URI = "/api/tsdb/push";
+    public static final String DEFAULT_TRACE_PUSH_URI = "/api/trace/push";
 }

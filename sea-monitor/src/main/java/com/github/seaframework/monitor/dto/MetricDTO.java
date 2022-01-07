@@ -31,4 +31,11 @@ public class MetricDTO extends BaseMonitorDTO {
      */
     @JSONField(serialize = false)
     private boolean traceIdFlag;
+
+
+    /**
+     * 是否周期性指标
+     */
+    @JSONField(serialize = false)
+    private boolean periodFlag;
 }

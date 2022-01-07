@@ -1,7 +1,7 @@
 package com.github.seaframework.monitor.demo.service.impl;
 
-import com.github.seaframework.monitor.annotation.SeaMonitorTrace;
 import com.github.seaframework.monitor.demo.service.UserService;
+import com.github.seaframework.monitor.plugin.aop.SeaMonitorTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

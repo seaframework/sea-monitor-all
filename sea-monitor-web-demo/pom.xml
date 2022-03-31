@@ -22,7 +22,7 @@
 
 
         <!-- <rapid.version>4.0.5</rapid.version> -->
-        <spring.version>4.3.22.RELEASE</spring.version>
+        <spring.version>5.3.18</spring.version>
         <micrometer.version>1.3.6</micrometer.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
